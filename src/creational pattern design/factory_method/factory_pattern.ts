@@ -47,12 +47,10 @@ class SeaLogistics extends Logistics {
 class Main {
   static main(): void {
     // Logistica su strada
-    const roadLogistics = new RoadLogistics();
-    roadLogistics.planDelivery();
+    const generalLogistics: Logistics = new RoadLogistics();
 
-    // Logistica via mare
-    const seaLogistics = new SeaLogistics();
-    seaLogistics.planDelivery();
+    // const seaLogistics = new SeaLogistics();
+    generalLogistics.planDelivery();
   }
 }
 

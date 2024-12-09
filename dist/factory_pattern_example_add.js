@@ -1,47 +1,54 @@
 "use strict";
 // Implementazione concreta: Camion
-class Truck {
+class TruckExample {
     deliver() {
         console.log("Consegna su strada con un camion.");
     }
+    getCost() {
+        return 50; // Costo fisso per il trasporto su strada
+    }
 }
 // Implementazione concreta: Nave
-class Ship {
+class ShipExample {
     deliver() {
         console.log("Consegna via mare con una nave.");
     }
+    getCost() {
+        return 200; // Costo fisso per il trasporto via mare
+    }
 }
 // Creator astratto
-class Logistics {
+class LogisticsExample {
     planDelivery() {
         // Usa il prodotto creato dal Factory Method
         const transport = this.createTransport();
         transport.deliver();
+        console.log(`Costo della consegna: ${transport.getCost()} EUR`);
     }
 }
 // Creator concreto: Logistica su strada
-class RoadLogistics extends Logistics {
+class RoadLogisticsExample extends LogisticsExample {
     createTransport() {
-        return new Truck();
+        return new TruckExample();
     }
 }
 // Creator concreto: Logistica via mare
-class SeaLogistics extends Logistics {
+class SeaLogisticsExample extends LogisticsExample {
     createTransport() {
-        return new Ship();
+        return new ShipExample();
     }
 }
 // Esempio di utilizzo
-class Main {
+class MainExample {
     static main() {
         // Logistica su strada
-        const roadLogistics = new RoadLogistics();
+        const roadLogistics = new RoadLogisticsExample();
         roadLogistics.planDelivery();
         // Logistica via mare
-        const seaLogistics = new SeaLogistics();
+        const seaLogistics = new SeaLogisticsExample();
         seaLogistics.planDelivery();
     }
 }
 // Esecuzione del main
-Main.main();
-//# sourceMappingURL=factory_pattern.js.map
+MainExample.main();
+//# sourceMappingURL=factory_pattern_example_add.js.map

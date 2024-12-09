@@ -1,4 +1,3 @@
-
 # Metodo Factory (Factory Method)
 
 Il **Factory Method** è un pattern di progettazione creazionale che fornisce un'interfaccia per creare oggetti in una superclasse, ma consente alle sottoclassi di modificare il tipo di oggetti che saranno creati.
@@ -100,9 +99,66 @@ public class Main {
 ## Applicabilità
 
 Usa il **Factory Method** quando:
+
 - Non conosci in anticipo i tipi esatti di oggetti di cui il tuo codice avrà bisogno.
 - Vuoi semplificare l'estensione del codice per supportare nuovi tipi di oggetti.
 - Vuoi ridurre la duplicazione di codice relativo alla creazione degli oggetti.
+
+---
+
+## Aggiunte
+
+Aggiungi a **Transport** (interface) il metodo che vuoi aggiungere (comune a tutti i trasporti).
+
+- getCost(): double
+- getDuration(): int
+
+Aggiungi a **Truck** e **Ship** (classi concrete) l'implementazione dei metodi aggiunti.
+
+```java
+// Interfaccia comune per i prodotti
+interface Transport {
+    void deliver();
+    double getCost();
+    int getDuration();
+}
+
+// Implementazione concreta: Camion
+class Truck implements Transport {
+    @Override
+    public void deliver() {
+        System.out.println("Consegna su strada con un camion.");
+    }
+
+    @Override
+    public double getCost() {
+        return 100.0;
+    }
+
+    @Override
+    public int getDuration() {
+        return 2;
+    }
+}
+
+// Implementazione concreta: Nave
+class Ship implements Transport {
+    @Override
+    public void deliver() {
+        System.out.println("Consegna via mare con una nave.");
+    }
+
+    @Override
+    public double getCost() {
+        return 200.0;
+    }
+
+    @Override
+    public int getDuration() {
+        return 5;
+    }
+}
+```
 
 ---
 
