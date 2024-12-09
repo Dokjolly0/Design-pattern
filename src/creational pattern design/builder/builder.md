@@ -1,3 +1,7 @@
+# Creating the content for the file builder.md, including an additional example based on the first example.
+
+content = """
+
 # Pattern Builder
 
 Il pattern Builder è un pattern creazionale che permette di costruire oggetti complessi passo dopo passo. Questo pattern consente di produrre diversi tipi e rappresentazioni di un oggetto utilizzando lo stesso codice di costruzione. L'obiettivo principale del pattern Builder è separare la logica di costruzione di un oggetto dalla sua rappresentazione, permettendo di costruire oggetti complessi senza creare un numero eccessivo di sottoclassi o usare costruttori mostruosi con molti parametri.
@@ -131,35 +135,76 @@ console.log("Simple House:", simpleHouse);
 console.log("Luxury House:", luxuryHouse);
 ```
 
+### Aggiungere una nuova funzione: Case con Pannelli Solari
+
+```typescript
+// Estendiamo il builder di casa di lusso per supportare pannelli solari
+class EcoLuxuryHouseBuilder extends LuxuryHouseBuilder {
+  setSolarPanels(): void {
+    this.house.hasSolarPanels = true;
+  }
+}
+
+// Modifichiamo la classe House per includere i pannelli solari
+class House {
+  walls: string = "";
+  door: string = "";
+  windows: number = 0;
+  roof: string = "";
+  hasSwimmingPool: boolean = false;
+  hasGarden: boolean = false;
+  hasSolarPanels: boolean = false;
+}
+
+// Modifichiamo il Director per supportare case ecologiche
+class Director {
+  private builder: Builder;
+
+  constructor(builder: Builder) {
+    this.builder = builder;
+  }
+
+  constructEcoLuxuryHouse(): void {
+    this.builder.setWalls("stone");
+    this.builder.setDoor("double-glazed");
+    this.builder.setWindows(8);
+    this.builder.setRoof("green-roof");
+    if (this.builder instanceof EcoLuxuryHouseBuilder) {
+      (this.builder as EcoLuxuryHouseBuilder).setSwimmingPool();
+      (this.builder as EcoLuxuryHouseBuilder).setGarden();
+      (this.builder as EcoLuxuryHouseBuilder).setSolarPanels();
+    }
+  }
+}
+
+// Il client costruisce una casa ecologica di lusso
+const ecoBuilder = new EcoLuxuryHouseBuilder();
+const ecoDirector = new Director(ecoBuilder);
+ecoDirector.constructEcoLuxuryHouse();
+const ecoHouse = ecoBuilder.getProduct();
+console.log("Eco Luxury House:", ecoHouse);
+```
+
 ## Applicabilità
 
-1. **Usa il pattern Builder per eliminare un “costruttore telescopico”.**
-   - Ad esempio, se hai un costruttore con dieci parametri opzionali. Utilizzare il pattern Builder permette di costruire oggetti passo dopo passo, utilizzando solo i passaggi necessari.
-2. **Usa il pattern Builder quando vuoi che il tuo codice possa creare diverse rappresentazioni di un prodotto (ad esempio, case di pietra e di legno).**
-   - Il pattern Builder può essere applicato quando la costruzione di vari rappresentazioni del prodotto comporta passaggi simili che differiscono solo nei dettagli.
-3. ## Usa il pattern Builder per costruire alberi compositi o altri oggetti complessi.
-   - Il pattern Builder permette di costruire prodotti passo dopo passo. Puoi posticipare l'esecuzione di alcuni passaggi senza rompere il prodotto finale. Puoi anche chiamare passaggi in modo ricorsivo, il che è utile quando hai bisogno di costruire una struttura ad albero di oggetti.
+1. **Separazione della costruzione e rappresentazione.**
+
+   - Il pattern Builder separa la costruzione di un oggetto complesso dalla sua rappresentazione. Questo ti permette di costruire oggetti passo dopo passo, utilizzando solo i passaggi necessari.
+
+2. **Riutilizzo del codice.**
+
+   - Puoi riutilizzare lo stesso codice di costruzione quando costruisci varie rappresentazioni di prodotti.
+
+3. **Costruzione passo dopo passo.**
+   - Il pattern Builder ti permette di costruire oggetti passo dopo passo, posticipando l'esecuzione di alcuni passaggi o chiamando passaggi in modo ricorsivo.
 
 ## Pro e Contro
 
 ### Vantaggi:
 
-1. **Separazione della costruzione e rappresentazione.**
-   - Il pattern Builder separa la costruzione di un oggetto complesso dalla sua rappresentazione. Questo ti permette di costruire oggetti passo dopo passo, utilizzando solo i passaggi necessari.
-2. **Riutilizzo del codice.**
-   - Puoi riutilizzare lo stesso codice di costruzione quando costruisci varie rappresentazioni di prodotti.
-3. **Costruzione passo dopo passo.**
-   - Il pattern Builder ti permette di costruire oggetti passo dopo passo, posticipando l'esecuzione di alcuni passaggi o chiamando passaggi in modo ricorsivo.
+- **Separazione della costruzione e rappresentazione.** Puoi costruire oggetti passo dopo passo, separando la logica di costruzione dall'oggetto finale.
+- **Controllo completo sul processo di costruzione.** Puoi costruire oggetti uno step alla volta, controllando l'ordine e la logica di costruzione.
 
 ### Svantaggi:
 
-1. La complessità complessiva del codice aumenta poiché il pattern richiede la creazione di più classi nuove.
-
-## Relazioni con altri Pattern
-
-- Molti progetti iniziano utilizzando Factory Method (meno complicato e più personalizzabile tramite sottoclassi) e si evolvono verso Abstract Factory, Prototype o Builder (più flessibile, ma più complicato).
-- Builder si concentra sulla costruzione di oggetti complessi passo dopo passo.
-- Abstract Factory si concentra sulla creazione di famiglie di oggetti correlati. Abstract Factory restituisce il prodotto immediatamente, mentre Builder ti permette di eseguire ulteriori passaggi di costruzione prima di ottenere il prodotto.
-- Puoi usare Builder quando crei alberi compositi complessi perché puoi programmare i suoi passaggi di costruzione per lavorare in modo ricorsivo.
-- Puoi combinare Builder con Bridge: la classe direttore svolge il ruolo di astrazione, mentre diversi builder agiscono come implementazioni.
-- Abstract Factories, Builders e Prototypes possono essere implementati come Singleton.
+- **Complessità aggiuntiva.** La complessità complessiva del codice aumenta poiché il pattern richiede la creazione di più classi nuove.
